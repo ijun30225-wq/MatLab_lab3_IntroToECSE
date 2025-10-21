@@ -113,14 +113,30 @@ totalMask = redMask-blueMask-GreenMask;
 imshow(totalMask);
 
 %% Step 5: Refinement of Red Objects in Image
-
+TotalMask = bwareaopen(totalMask,150);
+se = strel('disk',50);
+TotalMask = imfill(TotalMask,"holes");
+TotalMask = imclose(TotalMask,se);
+imshow(TotalMask)
 
 %% Step 6: Feature Extraction for Classifying Stop Signs and Speed Limit Signs
+maskedRed = uint8(imRed) .* uint8(TotalMask);   % Apply total mask to red channel
+maskedGreen = uint8(imGreen) .* uint8(TotalMask); % Set green channel to zero where red is present
+maskedBlue = uint8(imBlue) .* uint8(TotalMask); % Set blue channel to zero where red is present
+
+% Step 4: Concatenate the masked color channels into an RGB image
+resultImage = cat(3, maskedRed, maskedGreen, maskedBlue);
+
+% Step 5: Display the resulting image
+imshow(resultImage);
+title('Filtered RGB Image with Total Mask');
 
 
 %% Step 7: Edge Detection of Red Objects in Image
-
-
+edge = edge(TotalMask,"sobel");
+imshow(edge);
+title('Edge of Red Object Mask');
 
 %% Step 8: Algorithm for determining if a sign in the data set is a stop sign
+
 

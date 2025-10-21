@@ -90,7 +90,27 @@ title('Blue Channel');
 xlabel('Intensity');
 ylabel('Pixel Count'); 
 %% Step 4: Application of Masks to Identify Red Objects in Image
-
+redMask = (imRed >= 145) & (imRed <= 210);
+imshow(redMask);
+blueMask = (imBlue >= 100) & (imBlue <= 150);
+imshow(blueMask);
+figure; 
+tiledlayout(1, 4);
+nexttile;
+redMask = (imRed >= 145) & (imRed <= 255);
+imshow(redMask);
+title('Red Mask');
+nexttile;
+blueMask = (imBlue >= 100) & (imBlue <= 255);
+imshow(blueMask);
+title('Blue Mask');
+nexttile;
+GreenMask = (imGreen >= 100) & (imGreen <= 255);
+imshow(GreenMask);
+title('Green Mask');
+nexttile;
+totalMask = redMask-blueMask-GreenMask;
+imshow(totalMask);
 
 %% Step 5: Refinement of Red Objects in Image
 
@@ -103,3 +123,4 @@ ylabel('Pixel Count');
 
 
 %% Step 8: Algorithm for determining if a sign in the data set is a stop sign
+

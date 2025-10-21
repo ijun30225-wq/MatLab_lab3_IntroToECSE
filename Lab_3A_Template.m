@@ -36,58 +36,59 @@ imLAB(:,:,1) = L*100;
 imRGB = lab2rgb(imLAB, 'OutputType','uint8');
 
 %% Step 3: Separate into Color Bands and Plot Histograms
-imgreen = imRGB(:,:,2);
-imblue = imRGB(:,:,3);
-imred = imRGB(:,:,1);
+imGreen = imRGB(:,:,2);
+imBlue = imRGB(:,:,3);
+imRed = imRGB(:,:,1);
 tiledlayout(1,4)
 nexttile;
 imshow(imRGB);
 title("Original")
 nexttile
-imshow(imred)
+imshow(imRed)
 title("Red Board")
 nexttile
-imshow(imgreen)
+imshow(imGreen)
 title("Green Board")
 nexttile
-imshow(imblue)
+imshow(imBlue)
 title("Blue Board")
 
 figure;
 
-% Create a tiled layout with 1 row and 4 columns
-tiledlayout(1, 4);
+figure('Position', [100, 100, 1600, 400]); 
+tiledlayout(1, 4, 'TileSpacing', 'Compact', 'Padding', 'Compact');
 
-% Plot the combined histogram with color coding
 nexttile;
-hold on; % Hold on to overlay histograms
-
-% Plot histograms for each channel
-histogram(imred, 'FaceColor', 'r', 'EdgeColor', 'none', 'FaceAlpha', 0.5, 'Normalization', 'probability');
-histogram(imgreen, 'FaceColor', 'g', 'EdgeColor', 'none', 'FaceAlpha', 0.5, 'Normalization', 'probability');
-histogram(imblue, 'FaceColor', 'b', 'EdgeColor', 'none', 'FaceAlpha', 0.5, 'Normalization', 'probability');
-
-% Add labels and title
-xlabel('Intensity Value');
-ylabel('Probability');
-title('Combined Color Intensity Histogram');
+hold on;
+histogram(imRed, 'FaceColor', 'r', 'DisplayStyle', 'bar', 'EdgeColor', 'none');
+histogram(imGreen, 'FaceColor', 'g', 'DisplayStyle', 'bar', 'EdgeColor', 'none');
+histogram(imBlue, 'FaceColor', 'b', 'DisplayStyle', 'bar', 'EdgeColor', 'none');
 hold off;
+title('Combined Histogram of RGB Channels');
+xlabel('Intensity');
+ylabel('Pixel Count');
+legend('Red Channel', 'Green Channel', 'Blue Channel');
 
-% Create individual histograms for each color band
+% Red channel histogram
 nexttile;
-imhist(imred);
-title('Red Channel Histogram');
+histogram(imRed, 'FaceColor', 'r');
+title('Red Channel');
+xlabel('Intensity');
+ylabel('Pixel Count');
 
+% Green channel histogram
 nexttile;
-imhist(imgreen);
-title('Green Channel Histogram');
+histogram(imGreen, 'FaceColor', 'g');
+title('Green Channel');
+xlabel('Intensity');
+ylabel('Pixel Count');
 
+% Blue channel histogram
 nexttile;
-imhist(imblue);
-title('Blue Channel Histogram');
-
-
-
+histogram(imBlue, 'FaceColor', 'b');
+title('Blue Channel');
+xlabel('Intensity');
+ylabel('Pixel Count'); 
 %% Step 4: Application of Masks to Identify Red Objects in Image
 
 
@@ -98,6 +99,7 @@ title('Blue Channel Histogram');
 
 
 %% Step 7: Edge Detection of Red Objects in Image
+
 
 
 %% Step 8: Algorithm for determining if a sign in the data set is a stop sign

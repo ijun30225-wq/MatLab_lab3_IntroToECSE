@@ -138,5 +138,13 @@ imshow(edge);
 title('Edge of Red Object Mask');
 
 %% Step 8: Algorithm for determining if a sign in the data set is a stop sign
+avg = mean2(resultImage(:,:,1));
+if avg > 30 
+    disp('This image is likely a stop sign.');
+else
+    disp('This image is not a stop sign.');
+end
+[B,L] = bwboundaries(TotalMask, 'noholes');
+
 
 

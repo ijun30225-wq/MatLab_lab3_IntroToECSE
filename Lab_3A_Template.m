@@ -172,13 +172,9 @@ else
     Rch = imD(:,:,1);
     Gch = imD(:,:,2);
     Bch = imD(:,:,3);
-    HSV = rgb2hsv(imD);
-    Hch = HSV(:,:,1);
-    Sch = HSV(:,:,2);
-    Vch = HSV(:,:,3);
+
     
     colorFactor = 1.2;
-    minSat = 0.25;
     threshold = 0.80;
     
     for k = 1:length(B)
@@ -194,9 +190,7 @@ else
         meanR = mean(Rch(regionMask));
         meanG = mean(Gch(regionMask));
         meanB = mean(Bch(regionMask));
-        meanH = mean(Hch(regionMask));
-        meanS = mean(Sch(regionMask));
-        meanV = mean(Vch(regionMask));
+
         
         isRed = meanR > .5;
         isBlue = meanB > .5;

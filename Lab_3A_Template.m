@@ -151,14 +151,14 @@ imshow(edgeImg);
 title('Edge of Red Object Mask');
 
 %% Step 8: Algorithm for determining if a sign in the data set is a stop sign
-N_largest = 1;
+N_largest = 1;%only selects the region with the largest area
 
 Ltemp = bwlabel(totalMask);
 props = regionprops(Ltemp,'Area','Perimeter','Centroid','BoundingBox');
 areas = [props.Area];
 
 if isempty(areas)
-    disp("Pedestrian Sign");
+    disp("Pedestrian Sign");%implemented bc pedestrian signs were not detected sometimes
 else
     [~, order] = sort(areas, 'descend');
     keepIdx = order(1:min(N_largest, length(order)));
@@ -167,7 +167,8 @@ else
     L_filtered = bwlabel(maskFiltered);
     B = bwboundaries(maskFiltered, 'noholes');
     stats = regionprops(L_filtered, 'Area', 'Perimeter', 'Centroid', 'BoundingBox');
-    
+
+    %color channels
     imD = im2double(imRGB);
     Rch = imD(:,:,1);
     Gch = imD(:,:,2);
@@ -192,24 +193,25 @@ else
         meanB = mean(Bch(regionMask));
 
         
-        isRed = meanR > .5;
-        isBlue = meanB > .5;
+        isRed = meanR > .5;&red threshold
+        isBlue = meanB > .5;%blue threshold
         
         if isRed
             if meanR > .7 || circ_value < .8
-                label = "Likely STOP sign (red + polygonal)";
+                label = "Stop Sign";
             else
-                label = "Circular red sign (e.g. speed-limit border)";
+                label = "Speed Limit Sign";
             end
         elseif isBlue
-            label = "Blue sign (e.g. pedestrian)";
+            label = "Pedestrian Sign";
         else
             label = "Other / not red/blue";
         end
         
-        disp( label + "  C=" + num2str(circ_value) + meanR + meanB);
+        disp( label + "  C=" + num2str(circ_value) + meanR + meanB); % shows values used as thresholds
     end
 end
+
 
 
 

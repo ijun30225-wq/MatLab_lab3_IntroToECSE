@@ -1,0 +1,19 @@
+# MATLAB
+*.asv
+*.m~
+*.mex*
+slprj/
+*.slxc
+*.p
+codegen/
+
+# Data folders (too large to commit — download from course materials)
+3A_traffic_sign_images/
+3B_training_images/
+3B_test_images/
+3B_training_image_annotations/
+3B_test_image_annotations/
+
+# OS
+.DS_Store
+Thumbs.db
